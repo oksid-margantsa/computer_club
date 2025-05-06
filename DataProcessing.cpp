@@ -1,4 +1,32 @@
 #include "DataProcessing.hpp"
+#include <sstream>
+
+std::vector< std::string > split(const std::string& s, char delimiter)
+{
+  std::vector< std::string > tokens;
+  std::string token;
+  std::istringstream tokenStream(s);
+  while (std::getline(tokenStream, token, delimiter))
+  {
+    tokens.push_back(token);
+  }
+  return tokens;
+}
+
+Event parseEvent(const std::string& line)
+{
+  auto parts = split(line, ' ');
+  if (parts.size() < 2 || parts[0].empty() || parts[1].empty())
+  {
+    throw std::invalid_argument("Invalid event format");
+  }
+
+  std::string time = parts[0];
+  EventType type = static_cast< EventType >(std::stoi(parts[1]));
+  std::vector< std::string > args(parts.begin() + 2, parts.end());
+
+  return Event(time, type, args);
+}
 
 bool isValidTimeFormat(const std::string& time)
 {

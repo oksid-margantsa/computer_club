@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <sstream>
 
 enum class EventType
 {
@@ -18,15 +19,12 @@ enum class EventType
 class Event
 {
 public:
-  Event(const std::string& t, EventType ty, const std::vector< std::string >& a = {}) :
-    time(t),
-    type(ty),
-    args(a)
-  {}
+  Event(const std::string& time, EventType type, const std::vector< std::string >& args = {});
 
-  const std::string& getTime() const { return time; }
-  EventType getType() const { return type; }
-  const std::vector<std::string>& getArgs() const { return args; }
+  const std::string& getTime() const;
+  EventType getType() const;
+  const std::vector< std::string >& getArgs() const;
+  std::string toString() const;
 
 private:
   std::string time;
